@@ -17,7 +17,6 @@ var (
 )
 
 func main() {
-
 	discord, err := discordgo.New("Bot " + TOKEN)
 	defer discord.Close()
 	if err != nil {
@@ -33,7 +32,7 @@ func main() {
 
 	handlers.Init(discord)
 
-	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
+	fmt.Println("Bot is now running.")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
