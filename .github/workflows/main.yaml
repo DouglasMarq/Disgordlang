@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{ secrets.DISCORDBOTTOKEN }}
+      GUILDID: ${{ secrets.DISCORDGUILDID }} 
     steps:
     - uses: actions/checkout@v2
 
@@ -20,7 +23,4 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      with:
-        TOKEN: ${{ secrets.DISCORDBOTTOKEN }}
-        GUILDID: ${{ secrets.DISCORDGUILDID }} 
       run: go test -v ./...
