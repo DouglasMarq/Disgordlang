@@ -5,6 +5,10 @@ on:
   push:
     branches: [ master ]
 
+env:
+  TOKEN: ${{ secrets.DISCORDBOTTOKEN }}
+  GUILDID: ${{ secrets.DISCORDGUILDID }} 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,4 +24,4 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      run: TOKEN=${{ secrets.DISCORDBOTTOKEN }} go test -v ./...
+      run: TOKEN=$TOKEN go test -v ./...
