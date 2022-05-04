@@ -19,6 +19,7 @@ var (
 func main() {
 	discord, err := setup(TOKEN)
 	defer discord.Close()
+
 	if err != nil {
 		fmt.Printf("Error: %s", err)
 		return
@@ -28,9 +29,12 @@ func main() {
 		fmt.Println("Initializing in DEV mode...")
 	}
 
-	discord.UpdateGameStatus(int(discordgo.ActivityTypeGame), "Testing!")
+	err = handlers.Init(discord)
 
-	handlers.Init(discord)
+	if err != nil {
+		discord.Close()
+		return
+	}
 
 	fmt.Println("Bot is now running.")
 	sc := make(chan os.Signal, 1)

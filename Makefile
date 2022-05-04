@@ -11,7 +11,7 @@ docker/build:
 	docker build -t nitra-bot .
 
 test/unit:
-	go test ./...
+	TOKEN=$$DISCORDBOTTOKEN	go test ./...
 
 run/dev:
 	ENVIRONMENT="dev" TOKEN=$$DISCORDBOTTOKEN GUILDID=$$DISCORDGUILDID go run cmd/main.go
