@@ -17,7 +17,7 @@ var (
 )
 
 func main() {
-	discord, err := discordgo.New("Bot " + TOKEN)
+	discord, err := setup(TOKEN)
 	defer discord.Close()
 	if err != nil {
 		fmt.Printf("Error: %s", err)
@@ -38,4 +38,8 @@ func main() {
 	<-sc
 
 	discord.Close()
+}
+
+func setup(token string) (*discordgo.Session, error) {
+	return discordgo.New("Bot " + token)
 }
