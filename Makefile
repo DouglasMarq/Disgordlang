@@ -6,9 +6,12 @@ run: docker/build
 	-e TOKEN=$$DISCORDBOTTOKEN \
 	-e GUILDID=$$DISCORDGUILDID \
 	nitra-bot
-	
+
 docker/build:
 	docker build -t nitra-bot .
+
+test/unit:
+	go test ./...
 
 run/dev:
 	ENVIRONMENT="dev" TOKEN=$$DISCORDBOTTOKEN GUILDID=$$DISCORDGUILDID go run cmd/main.go
