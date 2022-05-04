@@ -15,11 +15,13 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.18.1
-        TOKEN: ${{ secrets.DISCORDBOTTOKEN }}
-        GUILDID: ${{ secrets.DISCORDGUILDID }} 
 
     - name: Build
       run: go build -v ./...
 
     - name: Test
+      with:
+        TOKEN: ${{ secrets.DISCORDBOTTOKEN }}
+        GUILDID: ${{ secrets.DISCORDGUILDID }} 
+
       run: go test -v ./...
