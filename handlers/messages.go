@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"nitra/bot/utils"
 	"os"
 	"strings"
@@ -15,14 +14,12 @@ var (
 )
 
 func deleteMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
-	if ENVIRONMENT == "dev" &&
-		strings.TrimSpace(GUILDID) == "" {
-		fmt.Printf("ENVIRONMENT is %s, expected GUILDID: %s", ENVIRONMENT, GUILDID)
+	_, err := utils.IsQA(m.GuildID)
+	if err != nil {
 		return
 	}
 
-	if m.GuildID != GUILDID && ENVIRONMENT == "dev" ||
-		m.Author.ID == s.State.User.ID {
+	if m.Author.ID == s.State.User.ID {
 		return
 	}
 
@@ -43,14 +40,12 @@ func deleteMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func messagePing(s *discordgo.Session, m *discordgo.MessageCreate) {
-	if ENVIRONMENT == "dev" &&
-		strings.TrimSpace(GUILDID) == "" {
-		fmt.Printf("ENVIRONMENT is %s, expected GUILDID: %s", ENVIRONMENT, GUILDID)
+	_, err := utils.IsQA(m.GuildID)
+	if err != nil {
 		return
 	}
 
-	if m.GuildID != GUILDID && ENVIRONMENT == "dev" ||
-		m.Author.ID == s.State.User.ID {
+	if m.Author.ID == s.State.User.ID {
 		return
 	}
 
