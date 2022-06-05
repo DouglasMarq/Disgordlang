@@ -1,5 +1,5 @@
 install:
-	go mod
+	go mod vendor
 
 run: docker/build
 	docker run -d -t -i -e ENVIRONMENT="dev" \

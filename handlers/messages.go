@@ -1,16 +1,11 @@
 package handlers
 
 import (
+	"fmt"
 	"nitra/bot/utils"
-	"os"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
-)
-
-var (
-	ENVIRONMENT string = os.Getenv("ENVIRONMENT")
-	GUILDID     string = os.Getenv("GUILDID")
 )
 
 func deleteMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -50,10 +45,28 @@ func messagePing(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.Contains(m.Content, strings.ToLower("!ping")) {
-		s.ChannelMessageSend(m.ChannelID, "Pong!")
+		message := fmt.Sprintf("Pong! %s", s.HeartbeatLatency())
+		s.ChannelMessageSend(m.ChannelID, message)
 	}
 
 	if strings.Contains(m.Content, strings.ToLower("!pong")) {
-		s.ChannelMessageSend(m.ChannelID, "Ping!")
+		message := fmt.Sprintf("Pong! %s", s.HeartbeatLatency())
+		s.ChannelMessageSend(m.ChannelID, message)
+	}
+}
+
+func helpMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
+	_, err := utils.IsQA(m.GuildID)
+	if err != nil {
+		return
+	}
+
+	if m.Author.ID == s.State.User.ID {
+		return
+	}
+
+	if strings.Contains(m.Content, strings.ToLower("!help")) {
+		s.ChannelMessageSend(m.ChannelID, `Help command:  
+    Test`)
 	}
 }

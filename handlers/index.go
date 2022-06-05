@@ -7,8 +7,10 @@ import (
 )
 
 func Init(s *discordgo.Session) error {
+	// TODO - Load handlers dinamically
 	s.AddHandler(deleteMessages)
 	s.AddHandler(messagePing)
+	s.AddHandler(helpMessage)
 
 	s.Identify.Intents = discordgo.IntentsGuildMessages
 
