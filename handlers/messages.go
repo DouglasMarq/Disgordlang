@@ -19,11 +19,18 @@ func deleteMessages(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.Contains(m.Content, strings.ToLower("!clear")) {
-
-		numberOfMessagesToDelete := utils.GetMessageParameter(m.Content)
+		numberOfMessagesToDelete, err := utils.GetMessageParameter(m.Content)
+		if err != nil {
+			s.ChannelMessageSend(m.ChannelID, err.Error())
+			return
+		}
 
 		if numberOfMessagesToDelete == 0 {
 			s.ChannelMessageSend(m.ChannelID, "There's no messages to delete.")
+			return
+		}
+		if numberOfMessagesToDelete > 100 {
+			s.ChannelMessageSend(m.ChannelID, "Theres a max of 100 messages per clear.")
 			return
 		}
 
@@ -66,7 +73,10 @@ func helpMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.Contains(m.Content, strings.ToLower("!help")) {
-		s.ChannelMessageSend(m.ChannelID, `Help command:  
-    Test`)
+		result, err := utils.FindCommand(strings.ToLower("!help"))
+		if err != nil {
+			fmt.Println("oh fuck")
+		}
+		s.ChannelMessageSend(m.ChannelID, result.Text)
 	}
 }

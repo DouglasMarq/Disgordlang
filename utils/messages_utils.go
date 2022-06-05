@@ -8,20 +8,19 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-func GetMessageParameter(message string) int {
+func GetMessageParameter(message string) (int, error) {
 	splittedMessage := strings.Split(message, " ")
 
 	if len(splittedMessage) < 2 {
-		return 0
+		return 0, fmt.Errorf("please, provide a parameter")
 	}
 
 	messageParameter, err := strconv.Atoi(splittedMessage[1])
 	if err != nil {
-		fmt.Printf("Couldn't delete messages")
-		return 0
+		return 0, fmt.Errorf("invalid parameter")
 	}
 
-	return messageParameter
+	return messageParameter, nil
 }
 
 func GetChannelMessagesID(s *discordgo.Session, channelId string, numberOfMessages int, messageId string) []string {
@@ -32,8 +31,7 @@ func GetChannelMessagesID(s *discordgo.Session, channelId string, numberOfMessag
 	}
 
 	var messagesId []string
-	for index, message := range messages {
-		fmt.Printf("%d", index)
+	for _, message := range messages {
 		messagesId = append(messagesId, message.ID)
 	}
 

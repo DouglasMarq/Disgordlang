@@ -1,0 +1,10 @@
+{
+  "commands": [
+    {
+      "command": "!help",
+      "description": "Sends what this bot can do into current channel.",
+      "text": "this is a help test",
+      "userLevel": "all"
+    }
+  ]
+}
